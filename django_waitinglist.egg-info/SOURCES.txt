@@ -1,6 +1,0 @@
-setup.py
-django_waitinglist.egg-info/PKG-INFO
-django_waitinglist.egg-info/SOURCES.txt
-django_waitinglist.egg-info/dependency_links.txt
-django_waitinglist.egg-info/requires.txt
-django_waitinglist.egg-info/top_level.txt
