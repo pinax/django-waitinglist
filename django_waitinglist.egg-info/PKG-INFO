@@ -1,0 +1,33 @@
+Metadata-Version: 1.0
+Name: django-waitinglist
+Version: 1.0b1.dev1
+Summary: a Django waiting list app for private betas
+Home-page: http://github.com/pinax/django-waitinglist
+Author: Brian Rosner
+Author-email: brosner@gmail.com
+License: MIT
+Description: ===============================================
+        django-waitinglist: waiting list app for Django
+        ===============================================
+        
+        Provides a waiting list and tools to manage it.
+        
+        Requirements
+        ============
+        
+        * Django 1.4
+        * django-appconf (included in ``install_requires``)
+        
+        Documentation
+        =============
+        
+        See http://django-waitinglist.readthedocs.org/
+        
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: Web Environment
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Framework :: Django
