@@ -2,7 +2,7 @@
 django-waitinglist: waiting list app for Django
 ===============================================
 
-Provides a waiting list for running a private with cohorts support.
+Provides a waiting list for running a private beta with cohorts support.
 
 Requirements
 ============
