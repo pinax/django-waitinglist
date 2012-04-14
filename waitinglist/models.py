@@ -1,4 +1,5 @@
 from django.db import models
+from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
@@ -75,7 +76,7 @@ class UserCohort(models.Model):
     cohort = models.ForeignKey(Cohort)
 
 
-@reciever(user_signed_up)
+@receiver(user_signed_up)
 def handle_user_signup(sender, **kwargs):
     signup_code = kwargs["form"].cleaned_data["signup_code"]
     # fetch the cohort for the signup code
