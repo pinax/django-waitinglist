@@ -6,7 +6,7 @@ setup(
     version = "1.0b1.dev1",
     author = "Brian Rosner",
     author_email = "brosner@gmail.com",
-    description = "a Django waiting list app for private betas",
+    description = "a Django waiting list app for running a private beta with cohorts support",
     long_description = open("README.rst").read(),
     license = "MIT",
     url = "http://github.com/pinax/django-waitinglist",
