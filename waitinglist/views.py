@@ -1,7 +1,6 @@
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
 from django.template import RequestContext
-from django.shortcuts import render_to_response
+from django.shortcuts import render, redirect
 
 from waitinglist.forms import WaitingListEntryForm
 
@@ -15,11 +14,10 @@ def list_signup(request, post_save_redirect=None):
                 post_save_redirect = reverse("waitinglist_success")
             if not post_save_redirect.startswith("/"):
                 post_save_redirect = reverse(post_save_redirect)
-            return HttpResponseRedirect(post_save_redirect)
+            return redirect(post_save_redirect)
     else:
         form = WaitingListEntryForm()
-    context = {
+    ctx = {
         "form": form,
     }
-    context = RequestContext(request, context)
-    return render_to_response("waitinglist/list_signup.html", context)
+    return render(request, "waitinglist/list_signup.html", ctx)
