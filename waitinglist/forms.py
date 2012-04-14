@@ -1,6 +1,7 @@
 from django import forms
 
 from waitinglist.models import WaitingListEntry
+from waitinglist.models import Cohort, SignupCodeCohort, UserCohort
 
 
 class WaitingListEntryForm(forms.ModelForm):
@@ -21,3 +22,10 @@ class WaitingListEntryForm(forms.ModelForm):
                     "date": entry.created.strftime("%m/%d/%y"),
                 }
             )
+
+
+class CohortCreate(forms.ModelForm):
+    
+    class Meta:
+        model = Cohort
+        exclude = ["created"]
