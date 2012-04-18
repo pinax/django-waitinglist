@@ -1,6 +1,5 @@
 from django.core.urlresolvers import reverse
 from django.http import Http404
-from django.template import RequestContext
 from django.shortcuts import render, redirect, get_object_or_404
 
 from django.contrib.auth.models import User
@@ -37,8 +36,7 @@ def cohort_list(request):
     ctx = {
         "cohorts": Cohort.objects.order_by("-created")
     }
-    ctx = RequestContext(request, ctx)
-    return render_to_response("cohorts/cohort_list.html", ctx)
+    return render(request, "cohorts/cohort_list.html", ctx)
 
 
 def cohort_create(request):
