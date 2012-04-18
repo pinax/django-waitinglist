@@ -21,6 +21,9 @@ class WaitingListEntry(models.Model):
         verbose_name_plural = _("waiting list entries")
 
 
+Member = collections.namedtuple("Member", ["email", "signup_code", "user", "invited"])
+
+
 class Cohort(models.Model):
     
     name = models.CharField(_("name"), max_length=35)
@@ -28,18 +31,21 @@ class Cohort(models.Model):
     
     def members(self):
         members = []
-        for scc in self.signupcodecohort_set.select_related("signup_code"):
-            member = collections.namedtuple("Member", ["email", "signup_code", "user", "invited"])
-            member.email = scc.signup_code.email
-            member.signup_code = scc.signup_code
-            member.invited = bool(scc.signup_code.sent)
+        for scc in self.signupcodecohort_set.select_related():
             try:
                 scr = SignupCodeResult.objects.get(signup_code=scc.signup_code_id)
             except SignupCodeResult.DoesNotExist:
-                member.user = None
+                user = None
             else:
-                member.user = scr.user
-            members.append(member)
+                user = scr.user
+            members.append(
+                Member(
+                    scc.signup_code.email,
+                    scc.signup_code,
+                    user,
+                    bool(scc.signup_code.sent)
+                )
+            )
         return members
     
     def member_counts(self):
