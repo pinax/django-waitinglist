@@ -1,7 +1,7 @@
 from django import forms
 
 from waitinglist.models import WaitingListEntry
-from waitinglist.models import Cohort, SignupCodeCohort, UserCohort
+from waitinglist.models import Cohort
 
 
 class WaitingListEntryForm(forms.ModelForm):

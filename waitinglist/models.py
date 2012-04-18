@@ -1,3 +1,5 @@
+import collections
+
 from django.db import models
 from django.dispatch import receiver
 from django.utils import timezone
@@ -83,4 +85,4 @@ def handle_user_signup(sender, **kwargs):
     qs = SignupCodeCohort.objects.select_related("cohort")
     cohort = qs.get(signup_code=signup_code).cohort
     # create a UserCohort for user association to a cohort
-    UserCohort.objects.create(user=user, cohort=cohort)
+    UserCohort.objects.create(user=kwargs["user"], cohort=cohort)
