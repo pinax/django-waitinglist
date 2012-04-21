@@ -108,7 +108,7 @@ def cohort_member_add(request, pk):
     
     for email in emails:
         if not SignupCode.objects.filter(email=email).exists():
-            signup_code = SignupCode.create(email, 730)
+            signup_code = SignupCode.create(email=email, max_uses=1, expiry=730)
             signup_code.save()
             SignupCodeCohort.objects.create(signup_code=signup_code, cohort=cohort)
     
