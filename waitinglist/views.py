@@ -49,7 +49,7 @@ def cohort_create(request):
         
         if form.is_valid():
             cohort = form.save()
-            return redirect("cohort_detail", cohort.id)
+            return redirect("waitinglist_cohort_detail", cohort.id)
     else:
         form = CohortCreate()
     
@@ -91,7 +91,7 @@ def cohort_member_add(request, pk):
         try:
             N = int(request.POST["invite_next"])
         except ValueError:
-            return redirect("cohort_detail", cohort.id)
+            return redirect("waitinglist_cohort_detail", cohort.id)
         # people who are NOT invited or on the site already
         waiting_list = WaitingListEntry.objects.exclude(
             email__in=SignupCode.objects.values("email")
@@ -112,7 +112,7 @@ def cohort_member_add(request, pk):
             signup_code.save()
             SignupCodeCohort.objects.create(signup_code=signup_code, cohort=cohort)
     
-    return redirect("cohort_detail", cohort.id)
+    return redirect("waitinglist_cohort_detail", cohort.id)
 
 
 def cohort_send_invitations(request, pk):
@@ -123,4 +123,4 @@ def cohort_send_invitations(request, pk):
     cohort = Cohort.objects.get(pk=pk)
     cohort.send_invitations()
     
-    return redirect("cohort_detail", cohort.id)
+    return redirect("waitinglist_cohort_detail", cohort.id)
