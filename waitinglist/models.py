@@ -86,7 +86,7 @@ class UserCohort(models.Model):
 
 @receiver(user_signed_up)
 def handle_user_signup(sender, **kwargs):
-    signup_code = kwargs["form"].cleaned_data["signup_code"]
+    signup_code = kwargs["form"].cleaned_data["code"]
     # fetch the cohort for the signup code
     qs = SignupCodeCohort.objects.select_related("cohort")
     cohort = qs.get(signup_code=signup_code).cohort
