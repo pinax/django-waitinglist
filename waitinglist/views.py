@@ -1,6 +1,10 @@
+import json
+
 from django.core.urlresolvers import reverse
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.template import RequestContext
+from django.template.loader import render_to_string
 
 from django.contrib.auth.models import User
 
@@ -9,17 +13,23 @@ from waitinglist.forms import WaitingListEntryForm, CohortCreate
 from waitinglist.models import WaitingListEntry, Cohort, SignupCodeCohort
 
 
-
 def list_signup(request, post_save_redirect=None):
     if request.method == "POST":
         form = WaitingListEntryForm(request.POST)
         if form.is_valid():
             form.save()
-            if post_save_redirect is None:
-                post_save_redirect = reverse("waitinglist_success")
-            if not post_save_redirect.startswith("/"):
-                post_save_redirect = reverse(post_save_redirect)
-            return redirect(post_save_redirect)
+            if request.is_ajax():
+                data = {
+                    "html": render_to_string("waitinglist/_success.html", {
+                    },  context_instance=RequestContext(request))
+                }
+                return HttpResponse(json.dumps(data), mimetype="application/json")
+            else:
+                if post_save_redirect is None:
+                    post_save_redirect = reverse("waitinglist_success")
+                if not post_save_redirect.startswith("/"):
+                    post_save_redirect = reverse(post_save_redirect)
+                return redirect(post_save_redirect)
     else:
         form = WaitingListEntryForm()
     ctx = {
