@@ -4,6 +4,7 @@ from django.views.generic.simple import direct_to_template
 
 urlpatterns = patterns("",
     url(r"^list_signup/$", "waitinglist.views.list_signup", name="waitinglist_list_signup"),
+    url(r"^ajax_list_signup/$", "waitinglist.views.ajax_list_signup", name="waitinglist_ajax_list_signup"),
     url(r"^success/$", direct_to_template, {"template": "waitinglist/success.html"}, name="waitinglist_success"),
     url(r"^cohorts/$", "waitinglist.views.cohort_list", name="waitinglist_cohort_list"),
     url(r"^cohorts/create/$", "waitinglist.views.cohort_create", name="waitinglist_cohort_create"),
