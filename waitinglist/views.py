@@ -30,6 +30,14 @@ def list_signup(request, post_save_redirect=None):
                 if not post_save_redirect.startswith("/"):
                     post_save_redirect = reverse(post_save_redirect)
                 return redirect(post_save_redirect)
+        elif request.is_ajax():
+            data = {
+                "html": render_to_string("waitinglist/_list_signup.html", {
+                    "form": form,
+                },  context_instance=RequestContext(request))
+            }
+            return HttpResponse(json.dumps(data), mimetype="application/json")
+
     else:
         form = WaitingListEntryForm()
     ctx = {
