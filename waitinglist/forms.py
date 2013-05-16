@@ -2,6 +2,7 @@ from django import forms
 
 from waitinglist.models import WaitingListEntry
 from waitinglist.models import Cohort
+from waitinglist.models import SurveyAnswer, SurveyQuestion
 
 
 class WaitingListEntryForm(forms.ModelForm):
@@ -34,3 +35,27 @@ class CohortCreate(forms.ModelForm):
     class Meta:
         model = Cohort
         exclude = ["created"]
+
+
+class SurveyForm(forms.Form):
+    
+    def __init__(self, *args, **kwargs):
+        self.survey = kwargs.pop("survey")
+        super(SurveyForm, self).__init__(*args, **kwargs)
+        for question in self.survey.questions.all():
+            self.fields[question.name] = question.form_field()
+    
+    def save(self, instance):
+        for question in self.survey.questions.all():
+            answer, _ = SurveyAnswer.objects.get_or_create(instance=instance, question=question)
+            value = self.cleaned_data[question.name]
+            if question.kind == SurveyQuestion.RADIO_CHOICES:
+                answer.value_choices.add(value)
+            elif question.kind == SurveyQuestion.CHECKBOX_FIELD:
+                for choice in value:
+                    answer.value_choices.add(choice)
+            elif question.kind == SurveyQuestion.BOOLEAN_FIELD:
+                answer.value_boolean = value
+            else:
+                answer.value = value
+            answer.save()
