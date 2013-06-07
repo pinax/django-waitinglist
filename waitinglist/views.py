@@ -13,6 +13,7 @@ from account.models import SignupCode
 
 from .forms import WaitingListEntryForm, CohortCreate, SurveyForm
 from .models import WaitingListEntry, Cohort, SignupCodeCohort, SurveyInstance
+from .signals import signed_up
 
 
 @require_POST
@@ -20,6 +21,7 @@ def ajax_list_signup(request):
     form = WaitingListEntryForm(request.POST)
     if form.is_valid():
         entry = form.save()
+        signed_up.send(sender=ajax_list_signup, entry=entry)
         try:
             data = {
                 "location": reverse("waitinglist_survey", args=[entry.surveyinstance.code])
@@ -43,6 +45,7 @@ def list_signup(request, post_save_redirect=None):
         form = WaitingListEntryForm(request.POST)
         if form.is_valid():
             entry = form.save()
+            signed_up.send(sender=list_signup, entry=entry)
             try:
                 post_save_redirect = reverse("waitinglist_survey", args=[entry.surveyinstance.code])
             except SurveyInstance.DoesNotExist:

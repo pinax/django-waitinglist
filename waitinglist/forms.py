@@ -1,8 +1,7 @@
 from django import forms
 
-from waitinglist.models import WaitingListEntry
-from waitinglist.models import Cohort
-from waitinglist.models import SurveyAnswer, SurveyQuestion
+from .models import Cohort, SurveyAnswer, SurveyQuestion, WaitingListEntry
+from .signals import answered_survey
 
 
 class WaitingListEntryForm(forms.ModelForm):
@@ -17,8 +16,8 @@ class WaitingListEntryForm(forms.ModelForm):
         except WaitingListEntry.DoesNotExist:
             return value
         else:
-            raise forms.ValidationError("The email address %(email)s already "
-                "registered on %(date)s." % {
+            raise forms.ValidationError(
+                "The email address %(email)s already registered on %(date)s." % {
                     "email": value,
                     "date": entry.created.strftime("%m/%d/%y"),
                 }
@@ -58,3 +57,4 @@ class SurveyForm(forms.Form):
             else:
                 answer.value = value
             answer.save()
+        answered_survey.send(sender=self, instance=instance)
