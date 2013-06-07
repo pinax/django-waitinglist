@@ -105,7 +105,6 @@ class SurveyQuestion(models.Model):
         return slugify(self.question)
     
     def form_field(self):
-        choices = [(x.pk, x.label) for x in self.choices.all()]
         kwargs = dict(
             label=self.question,
             help_text=self.help_text,

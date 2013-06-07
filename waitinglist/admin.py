@@ -59,7 +59,6 @@ class SurveyAnswerAdmin(admin.ModelAdmin):
         return obj.question.question
 
 
-
 class SurveyQuestionChoiceInline(admin.TabularInline):
     
     model = SurveyQuestionChoice
