@@ -115,13 +115,11 @@ class SurveyTests(TestCase):
         self.assertEquals(answers.count(), 5)
         self.assertEquals(answers.get(question=self.ice_cream_question).value, "Strawberry")
         self.assertEquals(answers.get(question=self.summer_question).value, "Swam in the lake")
+        self.assertEquals(answers.get(question=self.season_question).value, self.summer.label)
         self.assertTrue(
-            self.summer in answers.get(question=self.season_question).value_choices.all()
+            self.nashville.label in answers.get(question=self.city_question).value
         )
         self.assertTrue(
-            self.nashville in answers.get(question=self.city_question).value_choices.all()
-        )
-        self.assertTrue(
-            self.boston in answers.get(question=self.city_question).value_choices.all()
+            self.boston.label in answers.get(question=self.city_question).value
         )
         self.assertTrue(answers.get(question=self.golf_question).value_boolean)
