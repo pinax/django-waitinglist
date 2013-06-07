@@ -146,7 +146,7 @@ class SurveyAnswer(models.Model):
     question = models.ForeignKey(SurveyQuestion, related_name="answers")
     value = models.TextField(blank=True)
     value_boolean = models.NullBooleanField(blank=True)
-    value_choices = models.ManyToManyField(SurveyQuestionChoice, blank=True, null=True)
+    created = models.DateTimeField(_("created"), default=timezone.now, editable=False)
     
     class Meta:
         unique_together = [("instance", "question")]

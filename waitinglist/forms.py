@@ -50,10 +50,9 @@ class SurveyForm(forms.Form):
             answer, _ = SurveyAnswer.objects.get_or_create(instance=instance, question=question)
             value = self.cleaned_data[question.name]
             if question.kind == SurveyQuestion.RADIO_CHOICES:
-                answer.value_choices.add(value)
+                answer.value = value.label
             elif question.kind == SurveyQuestion.CHECKBOX_FIELD:
-                for choice in value:
-                    answer.value_choices.add(choice)
+                answer.value = ", ".join([x.label for x in value])
             elif question.kind == SurveyQuestion.BOOLEAN_FIELD:
                 answer.value_boolean = value
             else:
