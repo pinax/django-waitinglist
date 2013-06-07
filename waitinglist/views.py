@@ -10,19 +10,25 @@ from django.views.decorators.http import require_POST
 from django.contrib.auth.models import User
 
 from account.models import SignupCode
-from waitinglist.forms import WaitingListEntryForm, CohortCreate
-from waitinglist.models import WaitingListEntry, Cohort, SignupCodeCohort
+
+from .forms import WaitingListEntryForm, CohortCreate, SurveyForm
+from .models import WaitingListEntry, Cohort, SignupCodeCohort, SurveyInstance
 
 
 @require_POST
 def ajax_list_signup(request):
     form = WaitingListEntryForm(request.POST)
     if form.is_valid():
-        form.save()
-        data = {
-            "html": render_to_string("waitinglist/_success.html", {
-            },  context_instance=RequestContext(request))
-        }
+        entry = form.save()
+        try:
+            data = {
+                "location": reverse("waitinglist_survey", args=[entry.surveyinstance.code])
+            }
+        except SurveyInstance.DoesNotExist:
+            data = {
+                "html": render_to_string("waitinglist/_success.html", {
+                },  context_instance=RequestContext(request))
+            }
     else:
         data = {
             "html": render_to_string("waitinglist/_list_signup.html", {
@@ -36,7 +42,11 @@ def list_signup(request, post_save_redirect=None):
     if request.method == "POST":
         form = WaitingListEntryForm(request.POST)
         if form.is_valid():
-            form.save()
+            entry = form.save()
+            try:
+                post_save_redirect = reverse("waitinglist_survey", args=[entry.surveyinstance.code])
+            except SurveyInstance.DoesNotExist:
+                pass
             if post_save_redirect is None:
                 post_save_redirect = reverse("waitinglist_success")
             if not post_save_redirect.startswith("/"):
@@ -48,6 +58,18 @@ def list_signup(request, post_save_redirect=None):
         "form": form,
     }
     return render(request, "waitinglist/list_signup.html", ctx)
+
+
+def survey(request, code):
+    instance = get_object_or_404(SurveyInstance, code=code)
+    if request.method == "POST":
+        form = SurveyForm(request.POST, survey=instance.survey)
+        if form.is_valid():
+            form.save(instance)
+            return redirect("home")  # @@@ make this configurable
+    else:
+        form = SurveyForm(survey=instance.survey)
+    return render(request, "waitinglist/survey.html", {"form": form})
 
 
 def cohort_list(request):
