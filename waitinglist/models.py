@@ -48,6 +48,9 @@ class Survey(models.Model):
     label = models.CharField(max_length=100, unique=True)
     active = models.BooleanField(default=True)
     
+    def __unicode__(self):
+        return self.label
+    
     def save(self, *args, **kwargs):
         if self.active:
             Survey.objects.filter(active=True).update(active=False)
@@ -88,7 +91,7 @@ class SurveyQuestion(models.Model):
     question = models.TextField()
     kind = models.IntegerField(choices=FIELD_TYPE_CHOICES)
     help_text = models.TextField(blank=True)
-    ordinal = models.IntegerField()
+    ordinal = models.IntegerField(blank=True)
     required = models.BooleanField()
     
     class Meta:
