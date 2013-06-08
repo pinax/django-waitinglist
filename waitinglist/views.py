@@ -69,7 +69,7 @@ def survey(request, code):
         form = SurveyForm(request.POST, survey=instance.survey)
         if form.is_valid():
             form.save(instance)
-            return redirect("home")  # @@@ make this configurable
+            return redirect("waitinglist_thanks")
     else:
         form = SurveyForm(survey=instance.survey)
     return render(request, "waitinglist/survey.html", {"form": form})
