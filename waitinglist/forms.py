@@ -46,7 +46,7 @@ class SurveyForm(forms.Form):
     
     def save(self, instance):
         for question in self.survey.questions.all():
-            answer, _ = SurveyAnswer.objects.get_or_create(instance=instance, question=question)
+            answer = SurveyAnswer.objects.create(instance=instance, question=question)
             value = self.cleaned_data[question.name]
             if question.kind == SurveyQuestion.RADIO_CHOICES:
                 answer.value = value.label

@@ -149,9 +149,6 @@ class SurveyAnswer(models.Model):
     value = models.TextField(blank=True)
     value_boolean = models.NullBooleanField(blank=True)
     created = models.DateTimeField(_("created"), default=timezone.now, editable=False)
-    
-    class Meta:
-        unique_together = [("instance", "question")]
 
 
 Member = collections.namedtuple("Member", ["email", "signup_code", "user", "invited"])
