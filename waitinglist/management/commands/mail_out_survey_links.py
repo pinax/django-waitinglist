@@ -5,7 +5,7 @@ from django.template.loader import render_to_string
 
 from django.contrib.sites.models import Site
 
-from ..models import WaitingListEntry, Survey
+from ...models import WaitingListEntry, Survey
 
 
 class Command(BaseCommand):
