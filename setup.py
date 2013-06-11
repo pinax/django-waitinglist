@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name = "django-waitinglist",
-    version = "1.0b8",
+    version = "1.0b9",
     author = "Brian Rosner",
     author_email = "brosner@gmail.com",
     description = "a Django waiting list app for running a private beta with cohorts support",
@@ -11,6 +11,7 @@ setup(
     license = "MIT",
     url = "http://github.com/pinax/django-waitinglist",
     packages = find_packages(),
+    package_data = {"waitinglist": ["waitinglist/templates/*"]},
     install_requires = [
         "django-appconf==0.5",
     ],
