@@ -29,6 +29,9 @@ class WaitingListEntry(models.Model):
         verbose_name = _("waiting list entry")
         verbose_name_plural = _("waiting list entries")
 
+    def __unicode__(self):
+        return self.email
+
 
 @receiver(post_save, sender=WaitingListEntry)
 def handle_waitinglistentry_save(sender, **kwargs):
@@ -99,7 +102,7 @@ class SurveyQuestion(models.Model):
             ("survey", "question")
         ]
         ordering = ["ordinal"]
-    
+
     @property
     def name(self):
         return slugify(self.question)
