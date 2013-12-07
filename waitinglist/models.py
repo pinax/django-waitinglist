@@ -28,7 +28,7 @@ class WaitingListEntry(models.Model):
     class Meta:
         verbose_name = _("waiting list entry")
         verbose_name_plural = _("waiting list entries")
-
+    
     def __unicode__(self):
         return self.email
 
