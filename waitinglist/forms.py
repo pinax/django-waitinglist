@@ -5,10 +5,10 @@ from .signals import answered_survey
 
 
 class WaitingListEntryForm(forms.ModelForm):
-    
+
     class Meta:
         model = WaitingListEntry
-    
+
     def clean_email(self):
         value = self.cleaned_data["email"]
         try:
@@ -22,7 +22,7 @@ class WaitingListEntryForm(forms.ModelForm):
                     "date": entry.created.strftime("%m/%d/%y"),
                 }
             )
-    
+
     def __init__(self, *args, **kwargs):
         super(WaitingListEntryForm, self).__init__(*args, **kwargs)
         self.fields["email"].widget.attrs["placeholder"] = "your@email.com"
@@ -30,20 +30,20 @@ class WaitingListEntryForm(forms.ModelForm):
 
 
 class CohortCreate(forms.ModelForm):
-    
+
     class Meta:
         model = Cohort
         exclude = ["created"]
 
 
 class SurveyForm(forms.Form):
-    
+
     def __init__(self, *args, **kwargs):
         self.survey = kwargs.pop("survey")
         super(SurveyForm, self).__init__(*args, **kwargs)
         for question in self.survey.questions.all():
             self.fields[question.name] = question.form_field()
-    
+
     def save(self, instance):
         for question in self.survey.questions.all():
             answer = SurveyAnswer.objects.create(instance=instance, question=question)
