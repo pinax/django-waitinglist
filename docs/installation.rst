@@ -27,6 +27,14 @@ Installation
         ...
     )
 
+* To grant a user access the waitinglist management views, first
+  ensure you've synced the database to create the
+  ``waitinglist.manage_cohorts`` permssion::
+
+   user = User.objects.get(username="finnegan")
+   permission = Permission.objects.get(codename="manage_cohorts")
+   user.user_permissions.add(permission)
+
 .. _dependencies:
 
 Dependencies
