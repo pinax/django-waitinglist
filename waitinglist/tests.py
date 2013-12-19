@@ -9,7 +9,7 @@ from .models import (
 
 
 class SurveyTests(TestCase):
-    
+
     def setUp(self):
         self.survey = Survey.objects.create(
             label="My Test Survey"
@@ -65,17 +65,17 @@ class SurveyTests(TestCase):
             kind=SurveyQuestion.BOOLEAN_FIELD,
             required=True
         )
-    
+
     def test_create_second_survey(self):
         Survey.objects.create(label="Another test survey")
         self.assertEquals(Survey.objects.count(), 2)
         self.assertEquals(Survey.objects.filter(active=False).count(), 1)
         self.assertEquals(Survey.objects.filter(active=True).count(), 1)
-    
+
     def test_survey_form_creation(self):
         form = SurveyForm(survey=self.survey)
         self.assertTrue(len(form.fields), 5)
-    
+
     def test_survey_form_invalid(self):
         form = SurveyForm(
             data={
@@ -84,7 +84,7 @@ class SurveyTests(TestCase):
             survey=self.survey
         )
         self.assertFalse(form.is_valid())
-    
+
     def test_survey_form_valid(self):
         form = SurveyForm(
             data={
@@ -97,7 +97,7 @@ class SurveyTests(TestCase):
             survey=self.survey
         )
         self.assertTrue(form.is_valid())
-    
+
     def test_survey_form_save(self):
         form = SurveyForm(
             data={

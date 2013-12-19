@@ -76,10 +76,10 @@ def survey(request, code):
 
 
 def cohort_list(request):
-    
+
     if not request.user.is_staff:
         raise Http404()
-    
+
     ctx = {
         "cohorts": Cohort.objects.order_by("-created")
     }
@@ -87,19 +87,19 @@ def cohort_list(request):
 
 
 def cohort_create(request):
-    
+
     if not request.user.is_staff:
         raise Http404()
-    
+
     if request.method == "POST":
         form = CohortCreate(request.POST)
-        
+
         if form.is_valid():
             cohort = form.save()
             return redirect("waitinglist_cohort_detail", cohort.id)
     else:
         form = CohortCreate()
-    
+
     ctx = {
         "form": form,
     }
@@ -107,19 +107,19 @@ def cohort_create(request):
 
 
 def cohort_detail(request, pk):
-    
+
     if not request.user.is_staff:
         raise Http404()
-    
+
     cohort = get_object_or_404(Cohort, pk=pk)
-    
+
     # people who are NOT invited or on the site already
     waiting_list = WaitingListEntry.objects.exclude(
         email__in=SignupCode.objects.values("email")
     ).exclude(
         email__in=User.objects.values("email")
     )
-    
+
     ctx = {
         "cohort": cohort,
         "waiting_list": waiting_list,
@@ -128,12 +128,12 @@ def cohort_detail(request, pk):
 
 
 def cohort_member_add(request, pk):
-    
+
     if not request.user.is_staff:
         raise Http404()
-    
+
     cohort = Cohort.objects.get(pk=pk)
-    
+
     if "invite_next" in request.POST:
         try:
             N = int(request.POST["invite_next"])
@@ -152,22 +152,22 @@ def cohort_member_add(request, pk):
             emails = [email]
         else:
             emails = []
-    
+
     for email in emails:
         if not SignupCode.objects.filter(email=email).exists():
             signup_code = SignupCode.create(email=email, max_uses=1, expiry=730)
             signup_code.save()
             SignupCodeCohort.objects.create(signup_code=signup_code, cohort=cohort)
-    
+
     return redirect("waitinglist_cohort_detail", cohort.id)
 
 
 def cohort_send_invitations(request, pk):
-    
+
     if not request.user.is_staff:
         raise Http404()
-    
+
     cohort = Cohort.objects.get(pk=pk)
     cohort.send_invitations()
-    
+
     return redirect("waitinglist_cohort_detail", cohort.id)
