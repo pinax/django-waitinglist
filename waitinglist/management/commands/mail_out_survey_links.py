@@ -9,13 +9,13 @@ from ...models import WaitingListEntry, Survey
 
 
 class Command(BaseCommand):
-    
+
     help = "Email links to survey instances for those that never saw a survey"
-    
+
     def handle(self, *args, **options):
         survey = Survey.objects.get(active=True)
         entries = WaitingListEntry.objects.filter(surveyinstance__isnull=True)
-        
+
         for entry in entries:
             instance = survey.instances.create(entry=entry)
             site = Site.objects.get_current()
