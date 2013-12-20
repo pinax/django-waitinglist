@@ -159,6 +159,11 @@ class Cohort(models.Model):
     name = models.CharField(_("name"), max_length=35)
     created = models.DateTimeField(_("created"), default=timezone.now, editable=False)
 
+    class Meta:
+        permissions = (
+            ("manage_cohorts", "Can manage cohorts"),
+        )
+
     def members(self):
         members = []
         for scc in self.signupcodecohort_set.select_related():

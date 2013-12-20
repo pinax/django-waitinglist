@@ -8,8 +8,10 @@ from django.template.loader import render_to_string
 from django.views.decorators.http import require_POST
 
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import permission_required
 
 from account.models import SignupCode
+from account.decorators import login_required
 
 from .forms import WaitingListEntryForm, CohortCreate, SurveyForm
 from .models import WaitingListEntry, Cohort, SignupCodeCohort, SurveyInstance
@@ -75,10 +77,9 @@ def survey(request, code):
     return render(request, "waitinglist/survey.html", {"form": form})
 
 
+@login_required
+@permission_required("waitinglist.manage_cohorts")
 def cohort_list(request):
-
-    if not request.user.is_staff:
-        raise Http404()
 
     ctx = {
         "cohorts": Cohort.objects.order_by("-created")
@@ -86,10 +87,9 @@ def cohort_list(request):
     return render(request, "cohorts/cohort_list.html", ctx)
 
 
+@login_required
+@permission_required("waitinglist.manage_cohorts")
 def cohort_create(request):
-
-    if not request.user.is_staff:
-        raise Http404()
 
     if request.method == "POST":
         form = CohortCreate(request.POST)
@@ -106,10 +106,9 @@ def cohort_create(request):
     return render(request, "cohorts/cohort_create.html", ctx)
 
 
+@login_required
+@permission_required("waitinglist.manage_cohorts")
 def cohort_detail(request, pk):
-
-    if not request.user.is_staff:
-        raise Http404()
 
     cohort = get_object_or_404(Cohort, pk=pk)
 
@@ -127,10 +126,9 @@ def cohort_detail(request, pk):
     return render(request, "cohorts/cohort_detail.html", ctx)
 
 
+@login_required
+@permission_required("waitinglist.manage_cohorts")
 def cohort_member_add(request, pk):
-
-    if not request.user.is_staff:
-        raise Http404()
 
     cohort = Cohort.objects.get(pk=pk)
 
@@ -162,10 +160,9 @@ def cohort_member_add(request, pk):
     return redirect("waitinglist_cohort_detail", cohort.id)
 
 
+@login_required
+@permission_required("waitinglist.manage_cohorts")
 def cohort_send_invitations(request, pk):
-
-    if not request.user.is_staff:
-        raise Http404()
 
     cohort = Cohort.objects.get(pk=pk)
     cohort.send_invitations()
