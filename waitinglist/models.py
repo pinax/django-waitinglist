@@ -16,6 +16,8 @@ from django.contrib.auth.models import User
 from account.models import SignupCode, SignupCodeResult
 from account.signals import user_signed_up
 
+from . import trello
+
 
 SURVEY_SECRET = getattr(settings, "WAITINGLIST_SURVEY_SECRET", settings.SECRET_KEY)
 
@@ -24,11 +26,19 @@ class WaitingListEntry(models.Model):
 
     email = models.EmailField(_("email address"), unique=True)
     created = models.DateTimeField(_("created"), default=timezone.now, editable=False)
+    trello_card_id = models.CharField(max_length=100, blank=True)
+
+    def reset_trello_link(self):
+        if self.trello_card_id:
+            api = trello.Api()
+            api.delete_card(self.trello_card_id)
+            self.trello_card_id = ""
+            self.save()
 
     class Meta:
         verbose_name = _("waiting list entry")
         verbose_name_plural = _("waiting list entries")
-    
+
     def __unicode__(self):
         return self.email
 

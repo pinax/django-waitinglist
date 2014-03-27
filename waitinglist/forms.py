@@ -58,3 +58,4 @@ class SurveyForm(forms.Form):
                 answer.value = value
             answer.save()
         answered_survey.send(sender=self, instance=instance)
+        instance.entry.reset_trello_link()
