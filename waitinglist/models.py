@@ -106,6 +106,7 @@ class SurveyQuestion(models.Model):
     help_text = models.TextField(blank=True)
     ordinal = models.IntegerField(blank=True)
     required = models.BooleanField()
+    trello_list_id = models.CharField(max_length=100, blank=True)
 
     class Meta:
         unique_together = [
@@ -162,6 +163,7 @@ class SurveyAnswer(models.Model):
     value = models.TextField(blank=True)
     value_boolean = models.NullBooleanField(blank=True)
     created = models.DateTimeField(_("created"), default=timezone.now, editable=False)
+    trello_card_id = models.CharField(max_length=100, blank=True)
 
 
 Member = collections.namedtuple("Member", ["email", "signup_code", "user", "invited"])
