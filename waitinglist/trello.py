@@ -14,8 +14,12 @@ class Api(object):
         self.answered_surveys_list_name = getattr(settings, "WAITINGLIST_TRELLO_ANSWERED_SURVEY_LIST_NAME", "Answered Surveys")
         self.imported_contacts_list_name = getattr(settings, "WAITINGLIST_TRELLO_IMPORTED_CONTACTS_LIST_NAME", "Imported Contacts")
         self.imported_answers_list_name = getattr(settings, "WAITINGLIST_TRELLO_IMPORTED_ANSWERS_LIST_NAME", "Imported Answered")
+        self.to_contact_list_name = getattr(settings, "WAITINGLIST_TRELLO_TO_CONTACT_LIST_NAME", "To Contact")
+        self.contacted_list_name = getattr(settings, "WAITINGLIST_TRELLO_CONTACTED_LIST_NAME", "Contacted")
         self._answered_surveys_list_id = None
         self._imported_contacts_list_id = None
+        self._to_contact_list_id = None
+        self._contacted_list_id = None
         self._board_id = None
         self._org_id = None
 
@@ -65,6 +69,18 @@ class Api(object):
         return list_id
 
     @property
+    def to_contact_list_id(self):
+        if not self._to_contact_list_id:
+            self._to_contact_list_id = self._get_or_create_list(self.to_contact_list_name)
+        return self._to_contact_list_id
+
+    @property
+    def contacted_list_id(self):
+        if not self._contacted_list_id:
+            self._contacted_list_id = self._get_or_create_list(self.contacted_list_name)
+        return self._contacted_list_id
+
+    @property
     def answered_surveys_list_id(self):
         if not self._answered_surveys_list_id:
             self._answered_surveys_list_id = self._get_or_create_list(self.answered_surveys_list_name)
@@ -75,6 +91,14 @@ class Api(object):
         if not self._imported_contacts_list_id:
             self._imported_contacts_list_id = self._get_or_create_list(self.imported_contacts_list_name)
         return self._imported_contacts_list_id
+
+    def cards(self, list_id):
+        url = "/1/lists/{0}/cards?token={1}&key={2}".format(list_id, self.token, self.key)
+        return requests.get("{0}{1}".format(self.base_url, url)).json()
+
+    def move_card(self, card_id, list_id):
+        url = "/1/card/{0}/idList?token={1}&key={2}".format(card_id, self.token, self.key)
+        return requests.put("{0}{1}".format(self.base_url, url), data={"value": list_id})
 
     def create_card(self, title, description, list_id):
         url = "/1/cards?token={0}&key={1}".format(self.token, self.key)

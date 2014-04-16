@@ -27,6 +27,7 @@ class WaitingListEntry(models.Model):
     email = models.EmailField(_("email address"), unique=True)
     created = models.DateTimeField(_("created"), default=timezone.now, editable=False)
     trello_card_id = models.CharField(max_length=100, blank=True)
+    initial_contact_sent = models.BooleanField(default=False)
 
     def reset_trello_link(self):
         if self.trello_card_id:
