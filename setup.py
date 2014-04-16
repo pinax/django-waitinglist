@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name = "django-waitinglist",
-    version = "1.3",
+    version = "1.4",
     author = "Brian Rosner",
     author_email = "brosner@gmail.com",
     description = "a Django waiting list app for running a private beta with cohorts support",
