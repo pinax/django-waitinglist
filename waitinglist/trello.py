@@ -11,11 +11,19 @@ class Api(object):
         self.key = getattr(settings, "WAITINGLIST_TRELLO_KEY", None)
         self.org_slug = getattr(settings, "WAITINGLIST_TRELLO_ORG_SLUG", None)
         self.board_short_id = getattr(settings, "WAITINGLIST_TRELLO_BOARD_SHORT_ID", None)
-        self.answered_surveys_list_name = getattr(settings, "WAITINGLIST_TRELLO_ANSWERED_SURVEY_LIST_NAME", "Answered Surveys")
-        self.imported_contacts_list_name = getattr(settings, "WAITINGLIST_TRELLO_IMPORTED_CONTACTS_LIST_NAME", "Imported Contacts")
-        self.imported_answers_list_name = getattr(settings, "WAITINGLIST_TRELLO_IMPORTED_ANSWERS_LIST_NAME", "Imported Answered")
-        self.to_contact_list_name = getattr(settings, "WAITINGLIST_TRELLO_TO_CONTACT_LIST_NAME", "To Contact")
-        self.contacted_list_name = getattr(settings, "WAITINGLIST_TRELLO_CONTACTED_LIST_NAME", "Contacted")
+        self.answered_surveys_list_name = getattr(settings,
+                                                  "WAITINGLIST_TRELLO_ANSWERED_SURVEY_LIST_NAME",
+                                                  "Answered Surveys")
+        self.imported_contacts_list_name = getattr(settings,
+                                                   "WAITINGLIST_TRELLO_IMPORTED_CONTACTS_LIST_NAME",
+                                                   "Imported Contacts")
+        self.imported_answers_list_name = getattr(settings,
+                                                  "WAITINGLIST_TRELLO_IMPORTED_ANSWERS_LIST_NAME",
+                                                  "Imported Answered")
+        self.to_contact_list_name = getattr(settings, "WAITINGLIST_TRELLO_TO_CONTACT_LIST_NAME",
+                                            "To Contact")
+        self.contacted_list_name = getattr(settings, "WAITINGLIST_TRELLO_CONTACTED_LIST_NAME",
+                                           "Contacted")
         self._answered_surveys_list_id = None
         self._imported_contacts_list_id = None
         self._to_contact_list_id = None
@@ -26,7 +34,8 @@ class Api(object):
     @property
     def org_id(self):
         if not self._org_id:
-            url = "/1/organizations/{0}?token={1}&key={2}".format(self.org_slug, self.token, self.key)
+            url = "/1/organizations/{0}?token={1}&key={2}".format(self.org_slug, self.token,
+                                                                  self.key)
             print url
             r = requests.get("{0}{1}".format(self.base_url, url))
             print r.status_code
@@ -36,7 +45,8 @@ class Api(object):
     @property
     def board_id(self):
         if not self._board_id:
-            url = "/1/organizations/{0}/boards/?token={1}&key={2}".format(self.org_id, self.token, self.key)
+            url = "/1/organizations/{0}/boards/?token={1}&key={2}".format(self.org_id, self.token,
+                                                                          self.key)
             boards = requests.get("{0}{1}".format(self.base_url, url)).json()
             for board in boards:
                 if board["shortLink"] == self.board_short_id:
@@ -83,13 +93,15 @@ class Api(object):
     @property
     def answered_surveys_list_id(self):
         if not self._answered_surveys_list_id:
-            self._answered_surveys_list_id = self._get_or_create_list(self.answered_surveys_list_name)
+            self._answered_surveys_list_id = self._get_or_create_list(
+                self.answered_surveys_list_name)
         return self._answered_surveys_list_id
 
     @property
     def imported_contacts_list_id(self):
         if not self._imported_contacts_list_id:
-            self._imported_contacts_list_id = self._get_or_create_list(self.imported_contacts_list_name)
+            self._imported_contacts_list_id = self._get_or_create_list(
+                self.imported_contacts_list_name)
         return self._imported_contacts_list_id
 
     def cards(self, list_id):
@@ -102,7 +114,8 @@ class Api(object):
 
     def create_card(self, title, description, list_id):
         url = "/1/cards?token={0}&key={1}".format(self.token, self.key)
-        return requests.post("{0}{1}".format(self.base_url, url), data={"name": title, "desc": description, "idList": list_id}).json()
+        return requests.post("{0}{1}".format(self.base_url, url),
+                             data={"name": title, "desc": description, "idList": list_id}).json()
 
     def delete_card(self, card_id):
         url = "/1/cards/{2}?token={0}&key={1}".format(self.token, self.key, card_id)
