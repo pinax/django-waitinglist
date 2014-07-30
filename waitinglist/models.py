@@ -134,7 +134,8 @@ class SurveyQuestion(models.Model):
             kwargs.update({"widget": forms.RadioSelect(), "queryset": self.choices.all()})
         elif self.kind == SurveyQuestion.CHECKBOX_FIELD:
             field_class = forms.ModelMultipleChoiceField
-            kwargs.update({"widget": forms.CheckboxSelectMultiple(), "queryset": self.choices.all()})
+            kwargs.update({"widget": forms.CheckboxSelectMultiple(),
+                           "queryset": self.choices.all()})
         elif self.kind == SurveyQuestion.BOOLEAN_FIELD:
             field_class = forms.BooleanField
 

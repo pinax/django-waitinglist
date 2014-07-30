@@ -22,7 +22,8 @@ class Command(BaseCommand):
             try:
                 qs = entry.surveyinstance.answers.all().order_by("question__pk")
                 for answer in qs:
-                    if answer.question.kind == SurveyQuestion.BOOLEAN_FIELD or len(answer.value) > 0:
+                    if answer.question.kind == SurveyQuestion.BOOLEAN_FIELD \
+                       or len(answer.value) > 0:
                         answers.append(answer)
             except:
                 answers = []
@@ -39,8 +40,10 @@ class Command(BaseCommand):
                         description += "> {0}\n\n".format(answer.value.encode("utf-8"))
             else:
                 list_id = self.api.imported_contacts_list_id
+            path = reverse("admin:waitinglist_waitinglistentry_change", args=[entry.pk])
             description += "\n\n-----\n\nID: {0}\n".format(str(entry.pk))
-            description += "Admin Link: {0}://{1}{2}\n".format(self.protocol, self.site.domain, reverse("admin:waitinglist_waitinglistentry_change", args=[entry.pk]))
+            description += "Admin Link: {0}://{1}{2}\n".format(
+                self.protocol, self.site.domain, path)
             description += "Created At: {0}\n".format(str(entry.created))
 
             # 2. Create the card
@@ -48,7 +51,8 @@ class Command(BaseCommand):
             # 3. Store the id
             entry.trello_card_id = card["id"]
             entry.save()
-            print "Exported {0} onto Card {1}".format(entry.email.encode("utf-8"), entry.trello_card_id)
+            print "Exported {0} onto Card {1}".format(
+                entry.email.encode("utf-8"), entry.trello_card_id)
 
     def export_answers(self):
         questions = SurveyQuestion.objects.filter(trello_list_id="")
@@ -57,7 +61,8 @@ class Command(BaseCommand):
             question.save()
         answers = SurveyAnswer.objects.filter(trello_card_id="")
         for answer in answers:
-            description = "Entry: {0}\n".format(self.api.card_short_url(answer.instance.entry.trello_card_id))
+            description = "Entry: {0}\n".format(
+                self.api.card_short_url(answer.instance.entry.trello_card_id))
             if answer.question.kind == SurveyQuestion.BOOLEAN_FIELD:
                 title = str(answer.value_boolean)
             else:
