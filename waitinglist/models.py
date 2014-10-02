@@ -106,7 +106,7 @@ class SurveyQuestion(models.Model):
     kind = models.IntegerField(choices=FIELD_TYPE_CHOICES)
     help_text = models.TextField(blank=True)
     ordinal = models.IntegerField(blank=True)
-    required = models.BooleanField()
+    required = models.BooleanField(default=False)
     trello_list_id = models.CharField(max_length=100, blank=True)
 
     class Meta:
