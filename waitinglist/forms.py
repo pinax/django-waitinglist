@@ -8,6 +8,9 @@ class WaitingListEntryForm(forms.ModelForm):
 
     class Meta:
         model = WaitingListEntry
+        fields = [
+            "email"
+        ]
 
     def clean_email(self):
         value = self.cleaned_data["email"]
@@ -33,7 +36,7 @@ class CohortCreate(forms.ModelForm):
 
     class Meta:
         model = Cohort
-        exclude = ["created"]
+        fields = ["name"]
 
 
 class SurveyForm(forms.Form):
