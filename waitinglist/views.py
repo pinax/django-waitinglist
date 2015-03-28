@@ -39,7 +39,7 @@ def ajax_list_signup(request):
                 "form": form,
             },  context_instance=RequestContext(request))
         }
-    return HttpResponse(json.dumps(data), mimetype="application/json")
+    return HttpResponse(json.dumps(data), content_type="application/json")
 
 
 def list_signup(request, post_save_redirect=None):
