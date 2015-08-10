@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Cohort, SurveyAnswer, SurveyQuestion, WaitingListEntry
+from .models import SurveyAnswer, SurveyQuestion, WaitingListEntry
 from .signals import answered_survey
 
 
@@ -30,13 +30,6 @@ class WaitingListEntryForm(forms.ModelForm):
         super(WaitingListEntryForm, self).__init__(*args, **kwargs)
         self.fields["email"].widget.attrs["placeholder"] = "your@email.com"
         self.fields["email"].label = ""
-
-
-class CohortCreate(forms.ModelForm):
-
-    class Meta:
-        model = Cohort
-        fields = ["name"]
 
 
 class SurveyForm(forms.Form):

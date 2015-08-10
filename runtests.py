@@ -15,7 +15,6 @@ settings.configure(
         "django.contrib.auth",
         "django.contrib.contenttypes",
         "django.contrib.sites",
-        "account",
         "waitinglist",
     ],
     SITE_ID=1

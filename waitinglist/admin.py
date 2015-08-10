@@ -1,14 +1,11 @@
 from django.contrib import admin
 
 from .models import (
-    Cohort,
-    SignupCodeCohort,
     Survey,
     SurveyAnswer,
     SurveyInstance,
     SurveyQuestion,
     SurveyQuestionChoice,
-    UserCohort,
     WaitingListEntry
 )
 
@@ -17,16 +14,6 @@ class WaitingListEntryAdmin(admin.ModelAdmin):
 
     list_display = ["email", "created"]
     search_fields = ["email"]
-
-
-class SignupCodeCohortInline(admin.TabularInline):
-
-    model = SignupCodeCohort
-
-
-class UserCohortInline(admin.TabularInline):
-
-    model = UserCohort
 
 
 class SurveyInstanceAdmin(admin.ModelAdmin):
@@ -75,13 +62,6 @@ class SurveyQuestionAdmin(admin.ModelAdmin):
 
 
 admin.site.register(WaitingListEntry, WaitingListEntryAdmin)
-admin.site.register(
-    Cohort,
-    inlines=[
-        SignupCodeCohortInline,
-        UserCohortInline,
-    ]
-)
 
 admin.site.register(
     Survey,
