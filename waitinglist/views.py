@@ -7,14 +7,8 @@ from django.template import RequestContext
 from django.template.loader import render_to_string
 from django.views.decorators.http import require_POST
 
-from django.contrib.auth.models import User
-from django.contrib.auth.decorators import permission_required
-
-from account.models import SignupCode
-from account.decorators import login_required
-
 from .forms import WaitingListEntryForm, SurveyForm
-from .models import WaitingListEntry, SurveyInstance
+from .models import SurveyInstance
 from .signals import signed_up
 
 
