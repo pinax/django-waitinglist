@@ -12,8 +12,6 @@ setup(
     url="http://github.com/pinax/django-waitinglist",
     packages=find_packages(),
     package_data={"waitinglist": [
-        "templates/waitinglist/email/initial_contact.txt",
-        "templates/waitinglist/email/initial_contact_subject.txt",
         "templates/waitinglist/_list_signup.html",
         "templates/waitinglist/_success.html"
     ]},
