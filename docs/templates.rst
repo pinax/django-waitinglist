@@ -1,6 +1,0 @@
-.. _templates:
-
-Templates
-=========
-
-@@@ todo
