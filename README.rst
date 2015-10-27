@@ -49,7 +49,7 @@ Requirements
 Documentation
 ---------------
 
-See http://django-waitinglist.readthedocs.org/. The Pinax documentation is available at http://pinaxproject.com/pinax/.
+The django-waitinglist documentation is available at http://django-waitinglist.readthedocs.org/. The Pinax documentation is available at http://pinaxproject.com/pinax/.
 
 
 
