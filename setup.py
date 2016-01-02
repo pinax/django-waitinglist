@@ -18,7 +18,7 @@ setup(
         "templates/waitinglist/_success.html"
     ]},
     install_requires=[
-        "django-appconf==0.5",
+        "django-appconf>=1.0.1",
     ],
     classifiers=[
         "Development Status :: 4 - Beta",
