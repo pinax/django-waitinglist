@@ -1,12 +1,15 @@
 import datetime
 
-from django.utils import timezone
+from django.conf import settings
 
-from django.contrib.auth.models import User
+from django.utils import timezone
 
 from account.models import SignupCode
 
 from waitinglist.models import WaitingListEntry
+
+
+User = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
 
 
 def stats():

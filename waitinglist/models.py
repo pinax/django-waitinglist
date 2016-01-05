@@ -11,13 +11,13 @@ from django.template.defaultfilters import slugify
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from django.contrib.auth.models import User
-
 from account.models import SignupCode, SignupCodeResult
 from account.signals import user_signed_up
 
 from . import trello
 
+
+User = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
 
 SURVEY_SECRET = getattr(settings, "WAITINGLIST_SURVEY_SECRET", settings.SECRET_KEY)
 

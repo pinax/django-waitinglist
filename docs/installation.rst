@@ -30,8 +30,13 @@ Installation
 * To grant a user access the waitinglist management views, first
   ensure you've synced the database to create the
   ``waitinglist.manage_cohorts`` permission::
+   
+   from django.conf import settings
+   from django.contrib.auth.models import Permission
+   
 
-   from django.contrib.auth.models import User, Permission
+   User = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
+
 
    user = User.objects.get(username="finnegan")
    permission = Permission.objects.get(codename="manage_cohorts")
