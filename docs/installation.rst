@@ -27,7 +27,9 @@ Installation
         ...
     )
 
-* To grant a user access the waitinglist management views, first
+* Since Django 1.7 the `manage.py syncdb` option is deprecated
+  there is a fallback option `manage.py migrate --run-syncdb`
+  To grant a user access the waitinglist management views, first
   ensure you've synced the database to create the
   ``waitinglist.manage_cohorts`` permission::
    
