@@ -1,4 +1,8 @@
 ===============================================
+PLEASE NOTE, THIS PROJECT IS NO LONGER BEING MAINTAINED. See https://github.com/pinax/pinax-waitinglist instead.
+===============================================
+
+===============================================
 Django Waitinglist
 ===============================================
 .. image:: http://slack.pinaxproject.com/badge.svg
